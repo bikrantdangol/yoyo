@@ -2,8 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:yoyo/components/my_button.dart';
 import 'package:yoyo/components/my_textfield.dart';
-import 'package:yoyo/components/square_title.dart';
-
+// import 'package:yoyo/components/square_title.dart';
 
 class LoginPage extends StatefulWidget {
   final Function()? onTap;
@@ -19,8 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   final passwordController = TextEditingController();
 
   // sign user in method
-  void signUserIn()async {
-
+  void signUserIn() async {
     // show loading circle
     showDialog(
       context: context,
@@ -34,43 +32,40 @@ class _LoginPageState extends State<LoginPage> {
     // try sign in
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: emailController.text,
-      password: passwordController.text,
-    );
-    // pop the loading circle
-    if(mounted){
-       Navigator.pop(context);
-    }
-   
-    } on FirebaseAuthException catch (e) {
-     // print(e.code);
+        email: emailController.text,
+        password: passwordController.text,
+      );
       // pop the loading circle
-      if(mounted){
+      if (mounted) {
+        Navigator.pop(context);
+      }
+    } on FirebaseAuthException catch (e) {
+      // print(e.code);
+      // pop the loading circle
+      if (mounted) {
         Navigator.pop(context);
         // show error message
         showErrorMessage(e.code);
       }
     }
-
-    
   }
 
   // error message popup
-  void showErrorMessage(String message){
+  void showErrorMessage(String message) {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           backgroundColor: Colors.deepPurple,
-          title:  Center(
+          title: Center(
             child: Text(
               message,
               style: const TextStyle(color: Colors.white),
             ),
           ),
-         );
-       },
-     );
+        );
+      },
+    );
   }
 
   // wrong password message popup
@@ -86,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
   // }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SafeArea(
@@ -95,14 +90,18 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 50),
-              //logo
+                // REDUCED TOP SPACING: Changed from 50 to 0
+                const SizedBox(height: 0), // EDITED: Reduced top spacing
+                
+                //logo - made smaller
                 const Icon(
                   Icons.lock,
-                  size: 100,
+                  size: 70, // EDITED: Made lock icon smaller
                 ),
 
-                const SizedBox(height: 50),
+                // REDUCED SPACING: Changed from 50 to 25
+                const SizedBox(height: 25), // EDITED: Reduced spacing
+                
                 Text(
                   'Welcome back you\'ve been missed!',
                   style: TextStyle(
@@ -111,7 +110,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
 
-                const SizedBox(height: 25),
+                // REDUCED SPACING: Changed from 25 to 15
+                const SizedBox(height: 15), // EDITED: Reduced spacing
+                
 // enail text field
                 MyTextfield(
                   controller: emailController,
@@ -144,62 +145,68 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
 
-                const SizedBox(height: 25),
+                // REDUCED SPACING: Changed from 25 to 15
+                const SizedBox(height: 15), // EDITED: Reduced spacing
 
-            // sign in button
-                MyButton(
-                  text: "Sign In",
-                  onTap: signUserIn,
+            // sign in button - made smaller with oval shape
+                SizedBox(
+                  width: 150, // EDITED: Smaller width for oval shape
+                  height: 50, // EDITED: Smaller height
+                  child: MyButton(
+                    text: "Sign In",
+                    onTap: signUserIn,
+                  ),
                 ),
 
-                const SizedBox(height: 50),
+                // const SizedBox(height: 50),
 
           // or continue with
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Row(
-                     children: [
-                      Expanded(
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.grey[400],
-                        ),
-                      ),
+              //   Padding(
+              //     padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              //     child: Row(
+              //        children: [
+              //         Expanded(
+              //           child: Divider(
+              //             thickness: 0.5,
+              //             color: Colors.grey[400],
+              //           ),
+              //         ),
             
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Text(
-                          'Or continue with',
-                          style: TextStyle(color: Colors.grey[700],
-                        ),
-                      ),
-                    ),
+              //         Padding(
+              //           padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              //           child: Text(
+              //             'Or continue with',
+              //             style: TextStyle(color: Colors.grey[700],
+              //           ),
+              //         ),
+              //       ),
             
-                    Expanded(
-                      child: Divider(
-                        thickness: 0.5,
-                        color: Colors.grey[400],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              //       Expanded(
+              //         child: Divider(
+              //           thickness: 0.5,
+              //           color: Colors.grey[400],
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
 
-              const SizedBox(height: 50),
+          //     const SizedBox(height: 50),
 
-          // google + apple sign in buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                SquareTitle(imagePath: 'lib/images/google.png'),
+          // // google + apple sign in buttons
+          //     Row(
+          //       mainAxisAlignment: MainAxisAlignment.center,
+          //       children: const [
+          //       SquareTitle(imagePath: 'lib/images/google.png'),
 
-                SizedBox(width: 25),
+          //       SizedBox(width: 25),
 
-                SquareTitle(imagePath: 'lib/images/apple.png'),
-              ],
-            ),
+          //       SquareTitle(imagePath: 'lib/images/apple.png'),
+          //     ],
+          //   ),
 
-            const SizedBox(height: 50),
+                // REDUCED SPACING: Changed from 50 to 25
+                const SizedBox(height: 25), // EDITED: Reduced spacing
 
           // register
             Row(
@@ -219,6 +226,9 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ],
             ),
+            
+            // REDUCED BOTTOM SPACING: Changed from 50 to 25
+            const SizedBox(height: 25), // EDITED: Reduced bottom spacing
           ],
         ),
       ),
